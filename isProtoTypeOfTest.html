@@ -21,13 +21,16 @@ var empty = Object.create(null);
 
     tests({
         'It should return as true if the second argument has the first argument as its prototype.': function(){
-            eq(myPrototypeOf(dog, myDog), true);
+            eq(myPrototypeOf(dog, myDog), dog.isPrototypeOf(myDog));
         },
         'It should return false if the second argument doesnt have the first argument as its prototype.': function(){
-            eq(myPrototypeOf(empty, myDog), false);
+            eq(myPrototypeOf(empty, myDog), dog.isPrototypeOf(empty));
         },
-        'It should return true if the prototype chain is indirect.': function(){
-            eq(myPrototypeOf(Object.prototype, myDog), true);
+        'It should return true if the prototype chain is indirect to the next level': function(){
+            eq(myPrototypeOf(canine, myDog), true);
+        },
+        'It should return true if the prototype chain is indirect all the way down to object': function(){
+            eq(myPrototypeOf(Object.prototype, myDog), Object.prototype.isPrototypeOf(myDog));
         },
         'It should work on the built in String Object': function(){
             eq(myPrototypeOf(String.prototype, 'String'), true);
