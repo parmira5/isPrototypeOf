@@ -1,0 +1,43 @@
+<script src= "tinytest/tinytest.js"></script>
+<script src = "library/isPrototypeOf.js"></script>
+<script>
+
+//Test objects
+var canine = {
+  bark: function() {
+    console.log('bark');
+  }
+};
+
+var dog = Object.create(canine);
+
+dog.fetch = function() {
+  console.log('fetch');
+};
+
+var myDog = Object.create(dog);
+var empty = Object.create(null);
+
+
+    tests({
+        'It should return as true if the second argument has the first argument as its prototype.': function(){
+            eq(myPrototypeOf(dog, myDog), true);
+        },
+        'It should return false if the second argument doesnt have the first argument as its prototype.': function(){
+            eq(myPrototypeOf(empty, myDog), false);
+        },
+        'It should return true if the prototype chain is indirect.': function(){
+            eq(myPrototypeOf(Object.prototype, myDog), true);
+        },
+        'It should work on the built in String Object': function(){
+            eq(myPrototypeOf(String.prototype, 'String'), true);
+        },
+        'It should work on the built in Array object': function(){
+            eq(myPrototypeOf(Array.prototype, []), true);
+        },
+        'It should throw a TypeError if the prototype argument is null or undefined.': function(){
+            eq(myPrototypeOf(null, myDog), TypeError);
+        }
+        
+    });
+</script>
